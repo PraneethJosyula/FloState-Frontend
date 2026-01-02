@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { ActivityWithProfile } from '@/lib/types/database';
 import { Card } from './ui/card';
 import { Avatar } from './ui/avatar';
@@ -93,11 +94,12 @@ export function ActivityCard({ activity, onLike }: ActivityCardProps) {
 
       {/* Evidence Image */}
       {activity.evidence_url && (
-        <div className="mt-4 rounded-xl overflow-hidden bg-secondary">
-          <img
+        <div className="mt-4 rounded-xl overflow-hidden bg-secondary relative h-80">
+          <Image
             src={activity.evidence_url}
             alt="Activity evidence"
-            className="w-full max-h-80 object-cover"
+            fill
+            className="object-cover"
           />
         </div>
       )}

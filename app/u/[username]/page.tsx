@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { ProfileWithStats } from '@/lib/types/database';
 import { fetchProfile } from '@/lib/services/profiles';
@@ -25,11 +25,7 @@ export default function ProfilePage() {
   const [isOwnProfile, setIsOwnProfile] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
 
-  useEffect(() => {
-    loadProfile();
-  }, [username]);
-
-  const loadProfile = async () => {
+  const loadProfile = useCallback(async () => {
     setLoading(true);
     
     // Get current user to check if viewing own profile
@@ -64,7 +60,11 @@ export default function ProfilePage() {
       }
     }
     setLoading(false);
-  };
+  }, [username]);
+
+  useEffect(() => {
+    loadProfile();
+  }, [loadProfile]);
 
   const handleFollowToggle = async () => {
     if (!profile || followLoading) return;
@@ -106,7 +106,7 @@ export default function ProfilePage() {
         <main className="min-h-screen flex items-center justify-center">
           <div className="text-center">
             <p className="text-foreground font-medium mb-1">Profile not found</p>
-            <p className="text-muted-foreground text-sm">This user doesn't exist.</p>
+            <p className="text-muted-foreground text-sm">This user doesn&apos;t exist.</p>
           </div>
         </main>
       </>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { X, Clock, Image as ImageIcon, Loader2, Flame } from 'lucide-react';
@@ -178,14 +179,19 @@ export function SaveActivityModal({ duration, category, onClose, onSave }: SaveA
           </label>
           
           {mediaPreview ? (
-            <div className="relative rounded-xl overflow-hidden">
-              <img src={mediaPreview} alt="Preview" className="w-full h-48 object-cover" />
+            <div className="relative rounded-xl overflow-hidden h-48">
+              <Image 
+                src={mediaPreview} 
+                alt="Preview" 
+                fill
+                className="object-cover" 
+              />
               <button
                 onClick={() => {
                   setMediaPreview(null);
                   setMediaFile(null);
                 }}
-                className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors z-10"
               >
                 <X className="h-4 w-4" />
               </button>

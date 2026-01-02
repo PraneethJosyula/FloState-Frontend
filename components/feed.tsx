@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ActivityWithProfile } from '@/lib/types/database';
 import { fetchFeed } from '@/lib/services/activities';
 import { ActivityCard } from './activity-card';
@@ -14,11 +14,7 @@ export function Feed() {
   const [filter, setFilter] = useState<'following' | 'global'>('following');
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    loadFeed();
-  }, [filter, page]);
-
-  const loadFeed = async () => {
+  const loadFeed = useCallback(async () => {
     setLoading(true);
     const { data } = await fetchFeed({ filter, page, limit: 20 });
     if (data) {
@@ -29,7 +25,11 @@ export function Feed() {
       }
     }
     setLoading(false);
-  };
+  }, [filter, page]);
+
+  useEffect(() => {
+    loadFeed();
+  }, [loadFeed]);
 
   return (
     <div className="max-w-2xl mx-auto">

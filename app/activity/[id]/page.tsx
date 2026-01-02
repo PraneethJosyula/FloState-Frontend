@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { ActivityDetail } from '@/lib/types/database';
 import { fetchActivityById } from '@/lib/services/activities';
@@ -25,11 +26,7 @@ export default function ActivityDetailPage() {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
 
-  useEffect(() => {
-    loadActivity();
-  }, [activityId]);
-
-  const loadActivity = async () => {
+  const loadActivity = useCallback(async () => {
     setLoading(true);
     const { data } = await fetchActivityById(activityId);
     if (data) {
@@ -38,7 +35,11 @@ export default function ActivityDetailPage() {
       setLikeCount(data.like_count);
     }
     setLoading(false);
-  };
+  }, [activityId]);
+
+  useEffect(() => {
+    loadActivity();
+  }, [loadActivity]);
 
   const handleLike = async () => {
     const { liked } = await toggleLike(activityId);
@@ -134,11 +135,12 @@ export default function ActivityDetailPage() {
             )}
 
             {activity.evidence_url && (
-              <div className="mb-4 rounded-lg overflow-hidden">
-                <img
+              <div className="mb-4 rounded-lg overflow-hidden relative h-96">
+                <Image
                   src={activity.evidence_url}
                   alt="Activity evidence"
-                  className="w-full max-h-96 object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
             )}

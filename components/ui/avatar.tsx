@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 interface AvatarProps {
@@ -16,6 +17,13 @@ export function Avatar({ src, alt, name, size = 'md', className }: AvatarProps) 
     xl: 'w-20 h-20 text-xl',
   };
 
+  const sizePx = {
+    sm: 32,
+    md: 40,
+    lg: 56,
+    xl: 80,
+  };
+
   const initials = name
     ?.split(' ')
     .map(n => n[0])
@@ -26,16 +34,18 @@ export function Avatar({ src, alt, name, size = 'md', className }: AvatarProps) 
   return (
     <div
       className={cn(
-        'rounded-full flex items-center justify-center font-semibold',
+        'rounded-full flex items-center justify-center font-semibold relative overflow-hidden',
         'bg-primary/10 text-primary',
         sizeClasses[size],
         className
       )}
     >
       {src ? (
-        <img 
+        <Image 
           src={src} 
-          alt={alt || name} 
+          alt={alt || name || 'Avatar'} 
+          width={sizePx[size]}
+          height={sizePx[size]}
           className="w-full h-full rounded-full object-cover" 
         />
       ) : (

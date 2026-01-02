@@ -76,7 +76,7 @@ export function StartActivityModal({ onClose }: StartActivityModalProps) {
         {/* Info */}
         <div className="mb-6 p-4 rounded-xl bg-secondary/50">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            The timer will start immediately. You can pause or stop at any time. When you finish, you'll be able to add notes and evidence.
+            The timer will start immediately. You can pause or stop at any time. When you finish, you&apos;ll be able to add notes and evidence.
           </p>
         </div>
 
